@@ -28,7 +28,7 @@ class RegisterPartForm extends React.Component<IPartFormProps, any> {
           controlId={this.state.controlId}
           validationState={this.getValidationState()}
         >
-          <ControlLabel>Email :</ControlLabel>
+          <ControlLabel>{this.props.name} :</ControlLabel>
           <FormControl
             type={this.props.type}
             value={this.props.value}
