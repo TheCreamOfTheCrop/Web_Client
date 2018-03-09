@@ -1,14 +1,15 @@
 import * as React from 'react';
-// import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import LoginForm from './Form';
 
 class Login extends React.Component {
-    render() {
-      return (
-        <div>
-            <h2>Login</h2>
-        </div>
-      );
-    }
+  render() {
+    return (
+      <div>
+          <h2>Login</h2>
+          <LoginForm/>
+      </div>
+    );
   }
+}
 
 export default Login;

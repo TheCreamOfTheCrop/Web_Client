@@ -29,7 +29,7 @@ class App extends React.Component {
                         <NavItem eventKey={1} href="#">
                             <Link to="/login">Login</Link>
                         </NavItem>
-                        <NavItem eventKey={1} href="#">
+                        <NavItem eventKey={2} href="#">
                             <Link to="/register">Register</Link>
                         </NavItem>
                     </Nav>

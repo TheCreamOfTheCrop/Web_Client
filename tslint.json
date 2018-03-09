@@ -13,11 +13,11 @@
             true,
             "check-space"
         ],
-        "curly": true,
+        "curly": false,
         "eofline": false,
         "forin": true,
         "indent": [ true, "spaces" ],
-        "interface-name": [true, "never-prefix"],
+        "interface-name": [true, "always-prefix"],
         "jsdoc-format": true,
         "jsx-boolean-value": [false, "never"],
         "jsx-no-lambda": false,
@@ -30,7 +30,7 @@
             "static-before-instance",
             "variables-before-functions"
         ],
-        "no-any": true,
+        "no-any": false,
         "no-arg": true,
         "no-bitwise": true,
         "no-console": [
