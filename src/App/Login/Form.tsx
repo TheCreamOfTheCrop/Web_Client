@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormGroup, ControlLabel, FormControl, HelpBlock, Form } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Form } from 'react-bootstrap';
 
 class LoginForm extends React.Component<any, any> {
   constructor(props: any, context: any) {
