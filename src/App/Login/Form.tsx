@@ -32,37 +32,33 @@ class LoginForm extends React.Component<any, any> {
 
   render() {
     return (
-      <Form>
-        <FormGroup
-          controlId="LoginEmail"
-          validationState={this.getValidationState()}
-        >
-          <ControlLabel>Email :</ControlLabel>
-          <FormControl
-            type="email"
-            value={this.state.email}
-            placeholder="Enter text"
-            onChange={this.setEmail}
-          />
-          <FormControl.Feedback />
-          <HelpBlock>Validation is based on string length.</HelpBlock>
-        </FormGroup>
+        <Form>
+            <FormGroup
+                controlId="LoginEmail"
+                validationState={this.getValidationState()}
+            >
+            <ControlLabel>Email :</ControlLabel>
+            <FormControl
+                type="email"
+                value={this.state.email}
+                placeholder="Enter text"
+                onChange={this.setEmail}
+            />
+            </FormGroup>
 
-        <FormGroup
-          controlId="LoginPassword"
-          validationState={this.getValidationState()}
-        >
-          <ControlLabel>Mot de passe:</ControlLabel>
-          <FormControl
-            type="text"
-            value={this.state.password}
-            placeholder="Password"
-            onChange={this.setPassword}
-          />
-          <FormControl.Feedback />
-          <HelpBlock>Validation is based on string length.</HelpBlock>
-        </FormGroup>
-      </Form>
+            <FormGroup
+                controlId="LoginPassword"
+                validationState={this.getValidationState()}
+            >
+            <ControlLabel>Mot de passe:</ControlLabel>
+            <FormControl
+                type="text"
+                value={this.state.password}
+                placeholder="Password"
+                onChange={this.setPassword}
+            />
+            </FormGroup>
+        </Form>
     );
   }
 }
