@@ -50,7 +50,7 @@ class LoginForm extends React.Component<any, any> {
                 controlId="LoginPassword"
                 validationState={this.getValidationState()}
             >
-            <ControlLabel>Mot de passe:</ControlLabel>
+            <ControlLabel>Password:</ControlLabel>
             <FormControl
                 type="text"
                 value={this.state.password}
