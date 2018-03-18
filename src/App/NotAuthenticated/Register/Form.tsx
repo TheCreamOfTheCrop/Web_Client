@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { RegisterPartForm } from './PartForm';
 import { IRegisterFormState } from './Interfaces/IRegisterForm';
+import { withRouter } from 'react-router';
 
-export default class RegisterForm extends React.Component<any, IRegisterFormState> {
+class RegisterForm extends React.Component<any, IRegisterFormState> {
     constructor(props: any, context: IRegisterFormState) {
         super(props, context);
 
@@ -12,7 +13,8 @@ export default class RegisterForm extends React.Component<any, IRegisterFormStat
         this.setLastName = this.setLastName.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.setConfirmPassword = this.setConfirmPassword.bind(this);
-        
+        this.showInformation = this.showInformation.bind(this);
+
         this.state = {
             email: '',
             password: '',
@@ -25,6 +27,7 @@ export default class RegisterForm extends React.Component<any, IRegisterFormStat
 
     getValidationState() {
         const length: number = this.state.email.length;
+        this.setState({disableSubmit: true});
         // faudrais voir les conditions de validation
         if (length > 10) return 'success';
         else if (length > 5) return 'warning';
@@ -50,6 +53,11 @@ export default class RegisterForm extends React.Component<any, IRegisterFormStat
 
     setConfirmPassword(e: any) {
         this.setState({ confirmPassword: e.target.value });
+    }
+
+    showInformation(e: any) {
+        // d'abord envoyer le login via fetch puis aller dans
+       this.props.history.push('/register/after');
     }
 
     render() {
@@ -90,8 +98,16 @@ export default class RegisterForm extends React.Component<any, IRegisterFormStat
                     type="password"
                 />
                     
-                <Button type="submit" disabled={this.state.disableSubmit}>Sign Up</Button>
+                <Button
+                    type="submit"
+                    disabled={this.state.disableSubmit}
+                    onClick={this.showInformation}
+                >
+                    Sign Up
+                </Button>
             </Form>
         );
     }
 }
+
+export default withRouter(RegisterForm);

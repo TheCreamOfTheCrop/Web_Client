@@ -6,13 +6,17 @@ body {
   background-color: #FFC7C7;
 }
 
-.App-logo {
+/* .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
+} */
+
+.App-logo {
+  height: 120px;
 }
 
 .App-header {
-  height: 150px;
+  height: 190px;
   padding: 20px;
   color: white;
 }

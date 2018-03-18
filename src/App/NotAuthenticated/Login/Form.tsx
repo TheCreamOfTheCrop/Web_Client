@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormGroup, ControlLabel, FormControl, Form } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Form, Button } from 'react-bootstrap';
 
 class LoginForm extends React.Component<any, any> {
   constructor(props: any, context: any) {
@@ -58,6 +58,13 @@ class LoginForm extends React.Component<any, any> {
                 onChange={this.setPassword}
             />
             </FormGroup>
+            <Button
+              type="submit"
+              disabled={this.state.disableSubmit}
+              onClick={this.props.setAuth}
+            >
+              Sign In
+            </Button>
         </Form>
     );
   }
