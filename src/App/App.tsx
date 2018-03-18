@@ -33,7 +33,7 @@ class App extends React.Component {
             </header>
             <Row>
                 <Route exact path="/" component={Home} />
-                <Col md={4} mdOffset={4}>
+                <Col md={4} mdOffset={4} xs={6} xsOffset={3}>
                     <Route path="/login" component={Login} />
                     <Route path="/register" component={Register} />
                 </Col>
