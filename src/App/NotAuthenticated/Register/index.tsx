@@ -3,9 +3,6 @@ import RegisterForm from './Form';
 import { Route, Switch } from 'react-router';
 import After from './After';
 import { Panel } from 'react-bootstrap';
-// import createBrowserHistory from 'history/createBrowserHistory';
-
-// const customHistory = createBrowserHistory();
 
 class Register extends React.Component {
     render() {
