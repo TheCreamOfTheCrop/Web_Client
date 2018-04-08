@@ -8,25 +8,26 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
     constructor(props: any, context: IRegisterFormState) {
         super(props, context);
 
+        // i'm sure i can refacto this
         this.setEmail = this.setEmail.bind(this);
         this.setFirstName = this.setFirstName.bind(this);
         this.setLastName = this.setLastName.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.setConfirmPassword = this.setConfirmPassword.bind(this);
-        this.showInformation = this.showInformation.bind(this);
 
         this.getEmailValidation = this.getEmailValidation.bind(this);
         this.getPasswordValidation = this.getPasswordValidation.bind(this);
         this.getValidationState = this.getValidationState.bind(this);
         this.getConfirmPasswordValidation = this.getConfirmPasswordValidation.bind(this);
-        
+
+        this.showInformation = this.showInformation.bind(this);
+
         this.state = {
             email: '',
             password: '',
             confirmPassword: '',
             lastName: '',
             firstName: '',
-            disableSubmit: false,
         };
     }
 
@@ -48,11 +49,6 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
 
     setConfirmPassword(e: any) {
         this.setState({ confirmPassword: e.target.value });
-    }
-
-    showInformation(e: any) {
-        // d'abord envoyer le login via fetch puis aller dans
-       this.props.history.push('/register/after');
     }
 
     getEmailValidation() {
@@ -80,16 +76,46 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
         return 'error';
     }
 
+    getSnapshotBeforeUpdate() {
+        this.getValidationState();
+    }
+
     getValidationState() {
         let success: boolean = this.getEmailValidation() === 'success'
                                             && this.getPasswordValidation() === 'success'
                                             && this.getConfirmPasswordValidation() === 'success';
-        if (success) {
-            this.setState({disableSubmit: false});
-            return 'success';
-        }
-        this.setState({disableSubmit: true});
-        return 'error';
+        if (success) 
+            return false;
+        else
+            return true;
+    }
+
+    showInformation(e: any) {
+        var payload = {
+            email: this.state.email,
+            password: this.state.password,
+            lastname: this.state.lastName,
+            firstname: this.state.firstName
+        };
+        
+        fetch('http://' + process.env.REACT_APP_BMB_API + '/user/register', {
+            method: 'POST',
+            body: JSON.stringify(payload) ,
+            mode: 'no-cors',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+              }),
+        })
+        .then((res) => { 
+            return res.json(); 
+        })
+        .then((returnData) => { 
+            alert(JSON.stringify(returnData) ); 
+            this.props.history.push('/register/after');
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }
 
     render() {
@@ -137,7 +163,7 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
                     
                 <Button
                     type="submit"
-                    disabled={this.state.disableSubmit}
+                    disabled={this.getValidationState()}
                     onClick={this.showInformation}
                 >
                     Sign Up
