@@ -14,14 +14,6 @@ class LoginForm extends React.Component<any, any> {
     };
   }
 
-  getValidationState() {
-    const length: number = this.state.email.length;
-    if (length > 10) return 'success';
-    else if (length > 5) return 'warning';
-    else if (length > 0) return 'error';
-    return null;
-  }
-
   setEmail(e: any) {
     this.setState({ email: e.target.value });
   }
@@ -35,7 +27,6 @@ class LoginForm extends React.Component<any, any> {
         <Form>
             <FormGroup
                 controlId="LoginEmail"
-                validationState={this.getValidationState()}
             >
             <ControlLabel>Email :</ControlLabel>
             <FormControl
@@ -48,7 +39,6 @@ class LoginForm extends React.Component<any, any> {
 
             <FormGroup
                 controlId="LoginPassword"
-                validationState={this.getValidationState()}
             >
             <ControlLabel>Password:</ControlLabel>
             <FormControl
@@ -61,7 +51,7 @@ class LoginForm extends React.Component<any, any> {
             <Button
               type="submit"
               disabled={this.state.disableSubmit}
-              onClick={this.props.setAuth}
+              onClick={this.props.connect}
             >
               Sign In
             </Button>

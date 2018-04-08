@@ -15,6 +15,11 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
         this.setConfirmPassword = this.setConfirmPassword.bind(this);
         this.showInformation = this.showInformation.bind(this);
 
+        this.getEmailValidation = this.getEmailValidation.bind(this);
+        this.getPasswordValidation = this.getPasswordValidation.bind(this);
+        this.getValidationState = this.getValidationState.bind(this);
+        this.getConfirmPasswordValidation = this.getConfirmPasswordValidation.bind(this);
+        
         this.state = {
             email: '',
             password: '',
@@ -23,16 +28,6 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
             firstName: '',
             disableSubmit: false,
         };
-    }
-
-    getValidationState() {
-        const length: number = this.state.email.length;
-        this.setState({disableSubmit: true});
-        // faudrais voir les conditions de validation
-        if (length > 10) return 'success';
-        else if (length > 5) return 'warning';
-        else if (length > 0) return 'error';
-        return null;
     }
 
     setEmail(e: any) {
@@ -60,12 +55,50 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
        this.props.history.push('/register/after');
     }
 
+    getEmailValidation() {
+        let mailExpr = /[A-Za-z0-9]+@+[A-Za-z]+.[a-z]+/;
+        if (mailExpr.test(this.state.email))
+            return 'success' ;
+        return 'error';
+    }
+
+    getPasswordValidation() {
+        let majExpr = /[A-Z]+/;
+        let numberExpr = /[0-9]+/;
+        // plus de 4 caractère, une maj, un chiffre
+        let success = this.state.password.length > 4
+                             && majExpr.test(this.state.password)
+                             && numberExpr.test(this.state.password);
+        
+        if (success) return 'success';
+        return 'error';
+    }
+
+    getConfirmPasswordValidation() {
+        let success = this.state.password === this.state.confirmPassword;
+        if (success) return 'success';
+        return 'error';
+    }
+
+    getValidationState() {
+        let success: boolean = this.getEmailValidation() === 'success'
+                                            && this.getPasswordValidation() === 'success'
+                                            && this.getConfirmPasswordValidation() === 'success';
+        if (success) {
+            this.setState({disableSubmit: false});
+            return 'success';
+        }
+        this.setState({disableSubmit: true});
+        return 'error';
+    }
+
     render() {
         return (
             <Form>
                 <RegisterPartForm 
                     value={this.state.email}
                     setValue={this.setEmail}
+                    validation={this.getEmailValidation}
                     name="Email"
                     type="email"
                 />
@@ -73,6 +106,7 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
                 <RegisterPartForm 
                     value={this.state.firstName}
                     setValue={this.setFirstName}
+                    validation={() => null}
                     name="First Name"
                     type="text"
                 />
@@ -80,6 +114,7 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
                 <RegisterPartForm 
                     value={this.state.lastName}
                     setValue={this.setLastName}
+                    validation={() => null}
                     name="Last name"
                     type="text"
                 />
@@ -87,6 +122,7 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
                 <RegisterPartForm 
                     value={this.state.password}
                     setValue={this.setPassword}
+                    validation={this.getPasswordValidation}
                     name="Password"
                     type="password"
                 />
@@ -94,6 +130,7 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
                 <RegisterPartForm 
                     value={this.state.confirmPassword}
                     setValue={this.setConfirmPassword}
+                    validation={this.getConfirmPasswordValidation}
                     name="Confirm Password"
                     type="password"
                 />
