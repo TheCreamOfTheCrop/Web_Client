@@ -65,7 +65,7 @@ class Authenticated extends React.Component<any, any> {
                                 Preference
                             </NavItem>
                             <NavItem eventKey={2} href="#" role="button" onClick={this.disconnect}>
-                                disconnect
+                                Sign out
                             </NavItem>
                         </Nav>
                     </Navbar>
