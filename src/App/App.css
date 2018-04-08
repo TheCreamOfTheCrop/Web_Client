@@ -11,6 +11,23 @@ body {
   height: 80px;
 } */
 
+.App-Menu {
+  background-color: #6633FF;
+  height: 100vh;
+}
+
+.App-Menu a {
+  color: whitesmoke;
+}
+
+.App-Menu a:hover {
+  color: black;
+}
+
+#Bandeau {
+  margin-bottom: 0px;
+}
+
 .App-logo {
   height: 120px;
 }
