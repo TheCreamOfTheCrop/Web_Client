@@ -1,32 +1,11 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Navbar, Nav, NavItem, Row, Col } from 'react-bootstrap';
+import Profil from './Profil';
+import Loans from './Loans';
+import Home from './Home';
 
 const logo = require('../logo.png');
-
-class Profil extends React.Component<any, any> {
-    constructor(props: any, context: any) {
-        super(props, context);
-    }
-    render() {
-        return (
-            <div>
-                Profil in progress
-            </div>
-            );
-    }
-}
-const Home = () => (
-    <div>
-        Home in progress
-    </div>
-);
-
-const Loans = () => (
-    <div>
-        Loans in progress
-    </div>
-);
 
 class Authenticated extends React.Component<any, any> {
     constructor(props: any, context: any) {
@@ -41,8 +20,25 @@ class Authenticated extends React.Component<any, any> {
 
     disconnect() {
         let sessionKey  = String(process.env.REACT_APP_AUTH_SESSION_KEY);
-        window.sessionStorage.setItem(sessionKey, 'null');
-        this.setState({});
+        let sessionId = '';
+        fetch('http://' + process.env.REACT_APP_BMB_API + '/user/logout', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'authorization': sessionId
+            }),
+        })
+        .then((res) => { 
+            return res; 
+        })
+        .then((returnData) => { 
+            window.sessionStorage.setItem(sessionKey, 'null');
+            this.setState({});
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+       
     }
     handleSelect() {
         console.log('toto');
@@ -65,11 +61,11 @@ class Authenticated extends React.Component<any, any> {
                             </NavItem>
                         </Nav>
                         <Nav pullRight>
-                            <NavItem eventKey={1} href="#">
-                                <Link to="/profil">preference</Link>
+                            <NavItem eventKey={1} href="/profil">
+                                Preference
                             </NavItem>
-                            <NavItem eventKey={2} href="#">
-                                <a role="button" onClick={this.disconnect}>disconnect</a>
+                            <NavItem eventKey={2} href="#" role="button" onClick={this.disconnect}>
+                                disconnect
                             </NavItem>
                         </Nav>
                     </Navbar>

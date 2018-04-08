@@ -7,6 +7,7 @@ class LoginForm extends React.Component<any, any> {
 
     this.setEmail = this.setEmail.bind(this);
     this.setPassword = this.setPassword.bind(this);
+    this.connect = this.connect.bind(this);
 
     this.state = {
       email: '',
@@ -20,6 +21,10 @@ class LoginForm extends React.Component<any, any> {
 
   setPassword(e: any) {
     this.setState({ password: e.target.value });
+  }
+
+  connect(e: any) {
+    this.props.connect(this.state);
   }
 
   render() {
@@ -42,7 +47,7 @@ class LoginForm extends React.Component<any, any> {
             >
             <ControlLabel>Password:</ControlLabel>
             <FormControl
-                type="text"
+                type="password"
                 value={this.state.password}
                 placeholder="Password"
                 onChange={this.setPassword}
@@ -50,8 +55,7 @@ class LoginForm extends React.Component<any, any> {
             </FormGroup>
             <Button
               type="submit"
-              disabled={this.state.disableSubmit}
-              onClick={this.props.connect}
+              onClick={this.connect}
             >
               Sign In
             </Button>
