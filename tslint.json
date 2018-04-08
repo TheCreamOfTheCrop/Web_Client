@@ -57,8 +57,6 @@
         "no-use-before-declare": true,
         "one-line": [
             true,
-            "check-catch",
-            "check-else",
             "check-open-brace",
             "check-whitespace"
         ],

@@ -10,18 +10,12 @@ export class RegisterPartForm extends React.Component<IPartFormProps, any> {
         controlId : 'Register' + props.name
       };
     }
-    getValidationState() {
-      const length: number = this.props.value.length;
-      if (length > 10) return 'success';
-      else if (length > 5) return 'warning';
-      else if (length > 0) return 'error';
-      return null;
-    }
+   
     render() {
      return (
         <FormGroup
           controlId={this.state.controlId}
-          validationState={this.getValidationState()}
+          validationState={this.props.validation()}
         >
           <ControlLabel>{this.props.name} :</ControlLabel>
           <FormControl

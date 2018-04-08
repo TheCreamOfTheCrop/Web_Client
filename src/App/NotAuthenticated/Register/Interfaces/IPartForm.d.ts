@@ -3,4 +3,5 @@ export interface IPartFormProps {
     readonly type: string;
     readonly value: string;
     setValue(e: any): void;
+    validation(): "success" | "warning" | "error" | null;
   }
