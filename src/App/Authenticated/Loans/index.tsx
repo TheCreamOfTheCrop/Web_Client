@@ -69,12 +69,9 @@ class Loans extends React.Component<any, ILoansState> {
         return (
             <Row>
                 { 
-                    this.state.loans.length === 0 ?
                     this.state.loans.map((loan, i) => {
                         return  <Loan key={i} name={loan.state_id} description={loan.description}/>;
                     }) 
-                    :  
-                    <Loan name="No Loan Yet?" description="Then Add one"/>
                 }
             </Row>
         );
