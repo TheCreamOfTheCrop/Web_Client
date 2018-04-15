@@ -29,7 +29,7 @@ class Authenticated extends React.Component<any, any> {
             }),
         })
         .then((res) => { 
-            return res; 
+            return res.json(); 
         })
         .then((returnData) => { 
             window.sessionStorage.setItem(sessionKey, 'nothing');
