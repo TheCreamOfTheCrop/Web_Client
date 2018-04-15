@@ -1,52 +1,79 @@
 import * as React from 'react';
 import LoginForm from './Form';
-import { Panel } from 'react-bootstrap';
+import { Panel, Modal, Button } from 'react-bootstrap';
+import post from '../post';
+
+interface ICredentials {
+    email: string;
+    password: string;
+}
 
 class Login extends React.Component<any, any> {
     constructor(props: any, context: any) {
         super(props, context);
         this.connect = this.connect.bind(this);
+        this.closeErrorModal = this.closeErrorModal.bind(this);
+        this.state = {
+            showError: false,
+            errorMessage: ''
+        };
     }
-    connect(loginState: any) {
+    connect(loginState: ICredentials) {
         // i will probably put all the login
         var payload = {
             email: loginState.email,
             password: loginState.password
         };
+        var url = 'http://' + process.env.REACT_APP_BMB_API + '/user/login';
+        console.log(url);
         
-        var data = new FormData();
-        data.append( 'json', JSON.stringify( payload ) );
-        
-        fetch('http://' + process.env.REACT_APP_BMB_API + '/user/login', {
-            method: 'POST',
-            body: JSON.stringify(payload) ,
-            mode: 'no-cors',
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            }),
-        })
-        .then((res) => { 
-            return res; 
-        })
-        .then((returnData) => { 
-            window.sessionStorage.setItem(String(process.env.REACT_APP_AUTH_SESSION_KEY), 'true');
+        post(url, payload)
+        .then((returnData) => {
+            if (returnData.success === false) {
+                this.setState({
+                    errorMessage: returnData.message,
+                    showError: true
+                }) ;
+            }
+            else {
+                let result =  JSON.stringify(returnData.result);
+                window.sessionStorage.setItem(
+                    String(process.env.REACT_APP_AUTH_SESSION_KEY),
+                    result);
+                window.location.reload();
+            }
+         
         })
         .catch((err) => {
             console.log(err);
         });
-        window.sessionStorage.setItem(String(process.env.REACT_APP_AUTH_SESSION_KEY), 'true');
+    }
+    closeErrorModal() {
+        this.setState({
+            showError: false,
+            errorMessage: ''
+        });
     }
     render() {  
         return(
-        <Panel bsStyle="danger">
-            <Panel.Heading>Sign in</Panel.Heading>
-            <Panel.Body>
-                <LoginForm connect={this.connect}/>
-            </Panel.Body>
-            <Panel.Footer>
-                <a href="/forgetPassword">forgot password</a>
-            </Panel.Footer>
-        </Panel>
+            <div>
+                <Panel bsStyle="danger">
+                    <Panel.Heading>Sign in</Panel.Heading>
+                    <Panel.Body>
+                        <LoginForm connect={this.connect}/>
+                    </Panel.Body>
+                    <Panel.Footer>
+                        <a href="/forgetPassword">Forgot password</a>
+                    </Panel.Footer>
+                </Panel>
+                <Modal  show={this.state.showError} onHide={this.closeErrorModal}>
+                    <Modal.Body>{this.state.errorMessage}</Modal.Body>
+                
+                    <Modal.Footer>
+                    <Button onClick={this.closeErrorModal}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
         );
     }
 }

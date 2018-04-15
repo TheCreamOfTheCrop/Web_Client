@@ -19,21 +19,21 @@ class Authenticated extends React.Component<any, any> {
     }
 
     disconnect() {
-        let sessionKey  = String(process.env.REACT_APP_AUTH_SESSION_KEY);
-        let sessionId = '';
+        let sessionKey = String(process.env.REACT_APP_AUTH_SESSION_KEY);
+        let sessionId: any = JSON.parse(String(window.sessionStorage.getItem(sessionKey)));
         fetch('http://' + process.env.REACT_APP_BMB_API + '/user/logout', {
             method: 'POST',
             headers: new Headers({
                 'Content-Type': 'application/json',
-                'authorization': sessionId
+                'authorization': sessionId.token
             }),
         })
         .then((res) => { 
             return res; 
         })
         .then((returnData) => { 
-            window.sessionStorage.setItem(sessionKey, 'null');
-            this.setState({});
+            window.sessionStorage.setItem(sessionKey, 'nothing');
+            window.location.reload();
         })
         .catch((err) => {
             console.log(err);
@@ -64,7 +64,7 @@ class Authenticated extends React.Component<any, any> {
                             <NavItem eventKey={1} href="/profil">
                                 Preference
                             </NavItem>
-                            <NavItem eventKey={2} href="#" role="button" onClick={this.disconnect}>
+                            <NavItem eventKey={2} role="button" onClick={this.disconnect}>
                                 Sign out
                             </NavItem>
                         </Nav>
