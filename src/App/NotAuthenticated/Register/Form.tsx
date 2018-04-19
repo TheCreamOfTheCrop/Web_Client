@@ -97,7 +97,6 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
             password: this.state.password,
             lastname: this.state.lastName,
             firstname: this.state.firstName,
-            
         };
         let url = 'http://' + process.env.REACT_APP_BMB_API + '/user/register';
         

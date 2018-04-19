@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Navbar, Nav, NavItem, Row, Col } from 'react-bootstrap';
+
 import Profil from './Profil';
 import Loans from './Loans';
 import Home from './Home';
+
+import post from './post';
 
 const logo = require('../logo.png');
 
@@ -20,17 +23,8 @@ class Authenticated extends React.Component<any, any> {
 
     disconnect() {
         let sessionKey = String(process.env.REACT_APP_AUTH_SESSION_KEY);
-        let sessionId: any = JSON.parse(String(window.sessionStorage.getItem(sessionKey)));
-        fetch('http://' + process.env.REACT_APP_BMB_API + '/user/logout', {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'authorization': sessionId.token
-            }),
-        })
-        .then((res) => { 
-            return res.json(); 
-        })
+
+        post('http://' + process.env.REACT_APP_BMB_API + '/user/logout', '')
         .then((returnData) => { 
             window.sessionStorage.setItem(sessionKey, 'nothing');
             window.location.reload();
@@ -69,7 +63,8 @@ class Authenticated extends React.Component<any, any> {
                             </NavItem>
                         </Nav>
                     </Navbar>
-                    {this.state.openMenu ?
+                    {
+                        this.state.openMenu ?
                         <Col  className="App-Menu" md={3}>
                             <Nav bsStyle="pills" stacked onSelect={this.handleSelect}>
                                 <NavItem eventKey={1} href="/">
@@ -80,7 +75,9 @@ class Authenticated extends React.Component<any, any> {
                                 </NavItem>
                             </Nav>
                         </Col> 
-                        : null}
+                        : 
+                        null
+                    }
                     <Col md={this.state.openMenu ? 9 : 12}>
                         <header className="App-header">
                             <img src={logo} className="App-logo" alt="logo" />
