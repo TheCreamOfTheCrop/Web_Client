@@ -21,7 +21,7 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
         this.getValidationState = this.getValidationState.bind(this);
         this.getConfirmPasswordValidation = this.getConfirmPasswordValidation.bind(this);
 
-        this.showInformation = this.showInformation.bind(this);
+        this.register = this.register.bind(this);
 
         this.state = {
             email: '',
@@ -85,13 +85,10 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
         let success: boolean = this.getEmailValidation() === 'success'
                                             && this.getPasswordValidation() === 'success'
                                             && this.getConfirmPasswordValidation() === 'success';
-        if (success) 
-            return false;
-        else
-            return true;
+        return !success;
     }
 
-    showInformation(e: any) {
+    register(e: any) {
         var payload = {
             email: this.state.email,
             password: this.state.password,
@@ -154,7 +151,7 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
                     
                 <Button
                     disabled={this.getValidationState()}
-                    onClick={this.showInformation}
+                    onClick={this.register}
                 >
                     Sign Up
                 </Button>

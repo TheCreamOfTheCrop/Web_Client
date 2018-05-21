@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: #FFC7C7;
+  background-color: White;
 }
 
 /* .App-logo {
@@ -12,16 +12,8 @@ body {
 } */
 
 .App-Menu {
-  background-color: #6633FF;
+  background-color: black;
   height: 100vh;
-}
-
-.App-Menu a {
-  color: whitesmoke;
-}
-
-.App-Menu a:hover {
-  color: black;
 }
 
 #Bandeau {

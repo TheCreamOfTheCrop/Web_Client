@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Row } from 'react-bootstrap';
+import ILoan from './ILoan';
 import Loan from './Loan';
+import { post } from '../post';
 
 // "id": 21,
 //             "uid": "54624c97-9fb3-4b84-9846-5b74ea9d2884",
@@ -21,19 +23,6 @@ interface ILoansState {
     loans: ILoan[];
 }
 
-interface ILoan {
-    id: number;
-    uid: string;
-    amount: number;
-    creationDate: Date;
-    description: string;
-    rate: number;
-    loan_type: 'public' | 'private';
-    state_id: 'en attente' | 'en negociation';
-    user_provider_id: number | null;
-    user_requester_id: number;
-    delay: number;
-}
 class Loans extends React.Component<any, ILoansState> {
     constructor(props: any, context: any) {
         super(props, context);
@@ -43,18 +32,7 @@ class Loans extends React.Component<any, ILoansState> {
         };
     }
     componentDidMount() {
-        let sessionKey = String(process.env.REACT_APP_AUTH_SESSION_KEY);
-        let sessionId: any = JSON.parse(String(window.sessionStorage.getItem(sessionKey)));
-        fetch('http://' + process.env.REACT_APP_BMB_API + '/loan/listPublic', {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json',
-                'authorization': sessionId.token
-            }),
-        })
-        .then((res) => { 
-            return res.json(); 
-        })
+        post('http://' + process.env.REACT_APP_BMB_API + '/loan/listPublic')
         .then((res) => {
             this.setState({
                 loans: res.loans
@@ -70,7 +48,10 @@ class Loans extends React.Component<any, ILoansState> {
             <Row>
                 { 
                     this.state.loans.map((loan, i) => {
-                        return  <Loan key={i} name={loan.state_id} description={loan.description}/>;
+                        return  <Loan 
+                                        key={i}
+                                        loan={loan}
+                        />;
                     }) 
                 }
             </Row>

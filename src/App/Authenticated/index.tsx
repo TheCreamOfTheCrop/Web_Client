@@ -6,7 +6,7 @@ import Profil from './Profil';
 import Loans from './Loans';
 import Home from './Home';
 
-import post from './post';
+import { post } from './post';
 
 const logo = require('../logo.png');
 
@@ -24,7 +24,7 @@ class Authenticated extends React.Component<any, any> {
     disconnect() {
         let sessionKey = String(process.env.REACT_APP_AUTH_SESSION_KEY);
 
-        post('http://' + process.env.REACT_APP_BMB_API + '/user/logout', '')
+        post('http://' + process.env.REACT_APP_BMB_API + '/user/logout')
         .then((returnData) => { 
             window.sessionStorage.setItem(sessionKey, 'nothing');
             window.location.reload();
