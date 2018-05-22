@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Col, Panel } from 'react-bootstrap';
 import ILoan from './ILoan';
-import { postWithPayload } from '../post';
+// import { postWithPayload } from '../post';
 
 import { Button, Row } from 'react-bootstrap';
 class Loan extends React.Component<any, any> {
@@ -16,10 +16,11 @@ class Loan extends React.Component<any, any> {
         };
     }
     componentDidMount() {
-        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/user', { id: this.props.loan.user_provider_id })
-        .then((res: any) => {
-            this.setState({user : res});
-        });
+        // postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/user', 
+        // { id: this.props.loan.user_provider_id })
+        // .then((res: any) => {
+        //     this.setState({user : res});
+        // });
     }
     showDetails() {
         // TODO: plug to a true show details

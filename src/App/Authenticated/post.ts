@@ -22,14 +22,13 @@ let postWithPayload = function(url: string, payload: any) {
         method: 'POST',
         body:  JSON.stringify( payload ) ,
         headers: {
-            'mode': 'cors',
             'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
             'authorization': sessionId.token
         }
     };
-    let myRequest = new Request(url, conf);
 
-    return fetch (myRequest, conf)
+    return fetch (url, conf)
             .then((res) => { 
                 return res.json(); 
             });
