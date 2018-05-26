@@ -45,8 +45,9 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
     }
     render() {
         return (
-            this.state.user === undefined && this.props.mine ? 
-            null :
+            (this.state.user !== undefined 
+                && this.state.user.firstname !== '') 
+            || this.props.mine ? 
             (
                 this.state.openDetail ?
                 (
@@ -93,7 +94,7 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
                     </Panel>
                 </Col>
                 )
-            )
+            ) : null
         );
     }
 }
