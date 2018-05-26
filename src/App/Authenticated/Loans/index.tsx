@@ -19,9 +19,10 @@ class TabLoans extends React.Component<any, any> {
     }
     render() {
         return (
-           
+            <div>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                 <Tab eventKey={1} title="My List">
+                    <br/>
                     <Row>
                         <Col md={3}>
                             <Button>Add new personal loan</Button>
@@ -34,16 +35,21 @@ class TabLoans extends React.Component<any, any> {
                     </Row>
                 </Tab>
                 <Tab eventKey={2} title="Public loans">
-                        <Col md={10} mdOffset={1}>
-                            <PublicLoans  />
-                        </Col>       
+                    <br/>
+                    <Col md={10} mdOffset={1}>
+                        <PublicLoans />
+                    </Col>       
                 </Tab>
                 <Tab eventKey={3} title="">
+                    <br/>
+
                     <Col md={10} mdOffset={1}>
                         <PublicLoans  />
                     </Col>                       
                 </Tab>
             </Tabs>
+            
+            </div>
         );
     }
 }

@@ -33,7 +33,7 @@ export class PublicLoans extends React.Component<any, ILoansState> {
             <Row>
                 { 
                     this.state.loans.map((loan, i) => {
-                        return  <Loan 
+                        return  <Loan   
                                         key={i}
                                         loan={loan}
                         />;
