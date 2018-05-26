@@ -52,7 +52,7 @@ export class MyLoans extends React.Component<any, ILoansState> {
 
         this.state = {
             payload: {
-                state_id: '' //this.props.user.id
+                state_id: ''
             },
             loans: []
         };
