@@ -8,6 +8,7 @@ import Detail from './Detail';
 
 interface ILoanProps {
     loan: ILoan;
+    mine?: boolean;
 }
 
 interface ILoanState {
@@ -25,15 +26,18 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
         this.state = {
             openDetail: false,
             user: { 
-                firstname: 'default'
+                firstname: ''
             }
         };
     }
     componentDidMount() {
         postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/user', 
-                        { id: this.props.loan.id})
+                        { id: this.props.loan.id })
         .then((res: any) => {
-            this.setState({user : res.user});
+            if (res.success)
+                this.setState({user : res.user});
+        }).catch((err) => {
+            console.log(err);
         });
     }
     openClose() {
@@ -41,7 +45,7 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
     }
     render() {
         return (
-            this.state.user === undefined ? 
+            this.state.user === undefined && this.props.mine ? 
             null :
             (
                 this.state.openDetail ?
@@ -69,7 +73,7 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
                         </Panel.Body>
                         <Panel.Footer>
                             <Row>
-                                <Col md={2}>
+                                <Col md={3}>
                                     <Button type="button" onClick={this.openClose}>Details</Button>
                                 </Col>
 

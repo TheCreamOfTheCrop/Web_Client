@@ -65,7 +65,7 @@ class Profil extends React.Component<any, IProfilState> {
 
     getValidation() {
         let success: boolean = this.getPasswordValidation() === 'success'
-                                            && this.getConfirmPasswordValidation() === 'success';
+                            && this.getConfirmPasswordValidation() === 'success';
         return !success;
     }
 
@@ -80,8 +80,9 @@ class Profil extends React.Component<any, IProfilState> {
     }
 
     update() {
-        // let url = 'http://' + process.env.REACT_APP_BMB_API + '/';
-        // npostWithPayload(url, {})
+        // let url = 'http://' + process.env.REACT_APP_BMB_API + '/resetPassword';
+        // We need to use the old password too
+        // postWithPayload(url, {password:this.state.newPassword})
         // .then()
     }
     render() {

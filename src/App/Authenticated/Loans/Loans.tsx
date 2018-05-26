@@ -6,6 +6,7 @@ import { post, postWithPayload } from '../post';
 
 interface ILoansState {
     loans: ILoan[];
+    payload?: any;
 }
 
 export class PublicLoans extends React.Component<any, ILoansState> {
@@ -36,6 +37,7 @@ export class PublicLoans extends React.Component<any, ILoansState> {
                         return  <Loan   
                                         key={i}
                                         loan={loan}
+                                        mine={false}
                         />;
                     }) 
                 }
@@ -49,11 +51,12 @@ export class MyLoans extends React.Component<any, ILoansState> {
         super(props, context);
 
         this.state = {
+            payload: { id: this.props.user.id },
             loans: []
         };
     }
     componentDidMount() {
-        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/list', this.props.payload)
+        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/list', this.state.payload)
         .then((res: any) => {
             this.setState({
                 loans: res.loans
@@ -72,6 +75,7 @@ export class MyLoans extends React.Component<any, ILoansState> {
                         return  <Loan 
                                         key={i}
                                         loan={loan}
+                                        mine={true}
                         />;
                     }) 
                 }
