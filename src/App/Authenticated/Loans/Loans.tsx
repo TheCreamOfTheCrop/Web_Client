@@ -56,7 +56,7 @@ export class MyLoans extends React.Component<any, ILoansState> {
         };
     }
     componentDidMount() {
-        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/list', this.state.payload)
+        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', this.state.payload)
         .then((res: any) => {
             this.setState({
                 loans: res.loans
