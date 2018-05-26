@@ -35,10 +35,10 @@ class TabLoans extends React.Component<any, any> {
                             /> 
                             :
                             <Button onClick={this.addNewLoan}>Add new personal loan</Button>}
-                            
                         </Col>
                     </Row>
-                    
+                    <br/>
+                 
                     <Row>
                         <Col md={10} mdOffset={1}>
                             <MyLoans user={this.state.user}/>
