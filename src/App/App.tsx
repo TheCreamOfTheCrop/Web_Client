@@ -15,15 +15,16 @@ class App extends React.Component<any, IAppState> {
 
         let sessionKey  = String(process.env.REACT_APP_AUTH_SESSION_KEY);
 
-        if (window.sessionStorage.getItem(sessionKey) !== 'null'
-            && window.sessionStorage.getItem(sessionKey) !== 'undefined') {
+        if (window.sessionStorage.getItem(sessionKey) === null
+            || window.sessionStorage.getItem(sessionKey) === undefined
+            || window.sessionStorage.getItem(sessionKey) === 'nothing') {
                 this.state = {
-                    isAuthenticated: true
+                    isAuthenticated: false
                 };
         } 
         else {
             this.state = {
-                isAuthenticated: false
+                isAuthenticated: true
             };
         }  
     }

@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { RegisterPartForm } from './PartForm';
 import { IRegisterFormState } from './Interfaces/IRegisterForm';
 import { withRouter } from 'react-router';
+import post from '../post';
 
 class RegisterForm extends React.Component<any, IRegisterFormState> {
     constructor(props: any, context: IRegisterFormState) {
@@ -20,7 +21,7 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
         this.getValidationState = this.getValidationState.bind(this);
         this.getConfirmPasswordValidation = this.getConfirmPasswordValidation.bind(this);
 
-        this.showInformation = this.showInformation.bind(this);
+        this.register = this.register.bind(this);
 
         this.state = {
             email: '',
@@ -84,33 +85,20 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
         let success: boolean = this.getEmailValidation() === 'success'
                                             && this.getPasswordValidation() === 'success'
                                             && this.getConfirmPasswordValidation() === 'success';
-        if (success) 
-            return false;
-        else
-            return true;
+        return !success;
     }
 
-    showInformation(e: any) {
+    register(e: any) {
         var payload = {
             email: this.state.email,
             password: this.state.password,
             lastname: this.state.lastName,
-            firstname: this.state.firstName
+            firstname: this.state.firstName,
         };
+        let url = 'http://' + process.env.REACT_APP_BMB_API + '/user/register';
         
-        fetch('http://' + process.env.REACT_APP_BMB_API + '/user/register', {
-            method: 'POST',
-            body: JSON.stringify(payload) ,
-            mode: 'no-cors',
-            headers: new Headers({
-                'Content-Type': 'application/json'
-              }),
-        })
-        .then((res) => { 
-            return res.json(); 
-        })
+        post(url, payload)
         .then((returnData) => { 
-            alert(JSON.stringify(returnData) ); 
             this.props.history.push('/register/after');
         })
         .catch((err) => {
@@ -162,9 +150,8 @@ class RegisterForm extends React.Component<any, IRegisterFormState> {
                 />
                     
                 <Button
-                    type="submit"
                     disabled={this.getValidationState()}
-                    onClick={this.showInformation}
+                    onClick={this.register}
                 >
                     Sign Up
                 </Button>

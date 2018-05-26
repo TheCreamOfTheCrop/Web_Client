@@ -54,7 +54,6 @@ class LoginForm extends React.Component<any, any> {
             />
             </FormGroup>
             <Button
-              type="submit"
               onClick={this.connect}
             >
               Sign In
