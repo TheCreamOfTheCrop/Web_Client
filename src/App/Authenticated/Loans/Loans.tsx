@@ -51,7 +51,9 @@ export class MyLoans extends React.Component<any, ILoansState> {
         super(props, context);
 
         this.state = {
-            payload: { id: this.props.user.id },
+            payload: {
+                state_id: "" //this.props.user.id
+            },
             loans: []
         };
     }
