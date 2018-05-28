@@ -51,12 +51,14 @@ export class MyLoans extends React.Component<any, ILoansState> {
         super(props, context);
 
         this.state = {
-            payload: { id: this.props.user.id },
+            payload: {
+                state_id: ''
+            },
             loans: []
         };
     }
     componentDidMount() {
-        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/list', this.state.payload)
+        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', this.state.payload)
         .then((res: any) => {
             this.setState({
                 loans: res.loans

@@ -32,7 +32,7 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
     }
     componentDidMount() {
         postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/user', 
-                        { id: this.props.loan.id })
+                        { id: this.props.loan.user_requester_id })
         .then((res: any) => {
             if (res.success)
                 this.setState({user : res.user});
@@ -45,9 +45,7 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
     }
     render() {
         return (
-            this.state.user === undefined && this.props.mine ? 
-            null :
-            (
+
                 this.state.openDetail ?
                 (
                 <Detail 
@@ -93,7 +91,6 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
                     </Panel>
                 </Col>
                 )
-            )
         );
     }
 }

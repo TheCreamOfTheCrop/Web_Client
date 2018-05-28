@@ -32,7 +32,7 @@ class Authenticated extends React.Component<any, any> {
         .catch((err) => {
             console.log(err);
         });
-       
+        window.sessionStorage.setItem(sessionKey, 'null');
     }
     handleSelect() {
         console.log('toto');
