@@ -85,6 +85,7 @@ class Add extends React.Component<any, any> {
                                 validation={this.validateDescription}
                                 name="Description"
                                 type="textarea"
+                                componentClass="textarea"
                             />
                         </Panel.Body>
                         <Panel.Footer>

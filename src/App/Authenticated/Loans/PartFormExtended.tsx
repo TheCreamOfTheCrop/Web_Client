@@ -22,6 +22,7 @@ export class PartFormPropsExtended extends React.Component<IPartFormPropsExtende
           
           <InputGroup>
             <FormControl
+              componentClass={this.props.componentClass}
               type={this.props.type}
               value={this.props.value}
               placeholder="Enter value"
