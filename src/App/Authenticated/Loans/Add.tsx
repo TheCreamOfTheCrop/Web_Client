@@ -12,6 +12,7 @@ class Add extends React.Component<any, any> {
         this.setDescription = this.setDescription.bind(this);
         this.addLoan = this.addLoan.bind(this);
 
+        this.validateDescription = this.validateDescription.bind(this);
         this.state = {
             description: '',
             amount: 0,
@@ -31,6 +32,10 @@ class Add extends React.Component<any, any> {
     setDescription(e: any) {
         this.setState({description: e.target.value});
     }
+
+    validateDescription() {
+        return this.state.description.length > 4 ? 'success' : 'error';
+    }
     addLoan() {
         // i still have to test it
         postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/add', 
@@ -40,6 +45,8 @@ class Add extends React.Component<any, any> {
                             amount: this.state.amount, 
                             rate: this.state.rate, 
                             delay: this.state.delay  
+                        }).then(() => {
+                            window.location.reload();
                         });
 
     }
@@ -75,7 +82,7 @@ class Add extends React.Component<any, any> {
                             <PartFormPropsExtended
                                 value={this.state.description}
                                 setValue={this.setDescription}
-                                validation={() => null}
+                                validation={this.validateDescription}
                                 name="Description"
                                 type="textarea"
                             />
@@ -89,6 +96,7 @@ class Add extends React.Component<any, any> {
                                                 type="button" 
                                                 bsStyle="success" 
                                                 onClick={this.addLoan}
+                                                disabled={this.validateDescription() === 'error'}
                                         >
                                             Create
                                         </Button>
