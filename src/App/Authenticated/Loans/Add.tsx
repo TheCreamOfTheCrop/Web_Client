@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Row, Col, Panel, Button, ButtonGroup } from 'react-bootstrap';
+import { Row, Col, Panel, Button, ButtonGroup, FormGroup, Radio } from 'react-bootstrap';
 import { postWithPayload } from '../post';
 import { PartFormPropsExtended } from './PartFormExtended';
 
@@ -10,10 +10,13 @@ class Add extends React.Component<any, any> {
         this.setRate = this.setRate.bind(this);
         this.setDelay = this.setDelay.bind(this);
         this.setDescription = this.setDescription.bind(this);
+        this.setPrivacy = this.setPrivacy.bind(this);
+
         this.addLoan = this.addLoan.bind(this);
 
         this.validateDescription = this.validateDescription.bind(this);
         this.state = {
+            privacy: 'public',
             description: '',
             amount: 0,
             rate: 0.0,
@@ -32,9 +35,12 @@ class Add extends React.Component<any, any> {
     setDescription(e: any) {
         this.setState({description: e.target.value});
     }
+    setPrivacy(e: any) {
+        this.setState({privacy: e.currentTarget.value});
+    }
 
     validateDescription() {
-        return this.state.description.length > 4 ? 'success' : 'error';
+        return this.state.description.length > 4 && this.state.description.length <= 255 ? 'success' : 'error';
     }
     addLoan() {
         // i still have to test it
@@ -44,7 +50,8 @@ class Add extends React.Component<any, any> {
                             description: this.state.description, 
                             amount: this.state.amount, 
                             rate: this.state.rate, 
-                            delay: this.state.delay  
+                            delay: this.state.delay ,
+                            loan_type: this.state.privacy
                         }).then(() => {
                             window.location.reload();
                         });
@@ -79,6 +86,28 @@ class Add extends React.Component<any, any> {
                                 type="numeric"
                                 addOn={'Months'}
                             />
+                            <Row>
+                                <FormGroup>
+                                    <Radio 
+                                        name="privacy" 
+                                        value="public"
+                                        checked={this.state.privacy === 'public'} 
+                                        onChange={this.setPrivacy} 
+                                        inline
+                                    >
+                                        Public
+                                    </Radio>{' '}
+                                    <Radio 
+                                        name="privacy"
+                                        value="prive"
+                                        checked={this.state.privacy === 'prive'}
+                                        onChange={this.setPrivacy}
+                                        inline
+                                    >
+                                        Private
+                                    </Radio>
+                                </FormGroup>
+                            </Row>
                             <PartFormPropsExtended
                                 value={this.state.description}
                                 setValue={this.setDescription}
