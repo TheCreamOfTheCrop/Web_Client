@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: White;
+  background-color: white;
 }
 
 /* .App-logo {
@@ -27,7 +27,7 @@ body {
 .App-header {
   height: 190px;
   padding: 20px;
-  color: white;
+  background-color: #5592f2;
 }
 
 .App-title {

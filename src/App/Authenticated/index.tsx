@@ -75,10 +75,10 @@ class Authenticated extends React.Component<any, any> {
                         : 
                         null
                     }
+                    <header className="App-header">
+                        <img src={logo} className="App-logo" alt="logo" />
+                    </header>
                     <Col md={this.state.openMenu ? 9 : 12}>
-                        <header className="App-header">
-                            <img src={logo} className="App-logo" alt="logo" />
-                        </header>
                         <Row>
                             <Route exact path="/" component={Home} />
                             <Route path="/profil" component={Profil} />
