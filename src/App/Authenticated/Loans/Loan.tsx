@@ -45,13 +45,13 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
     }
     render() {
         return (
-
                 this.state.openDetail ?
                 (
                 <Detail 
                         user={this.state.user}
                         loan={this.props.loan} 
                         openClose={this.openClose}
+                        mine={this.props.mine}
                 />
                 ) 
                 :

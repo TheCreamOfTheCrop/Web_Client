@@ -7,6 +7,7 @@ import { postWithPayload } from '../post';
 interface IDetailProps {
     loan: ILoan;
     user: IUser;
+    mine: boolean | undefined;
 
     openClose: () => void;
 }
@@ -46,13 +47,19 @@ class Detail extends React.Component<IDetailProps, any> {
                                 <Col md={12}>
                                     <ButtonGroup>
                                         <Button type="button" onClick={this.props.openClose}>Close Details</Button>
-                                        <Button 
-                                                type="button" 
-                                                bsStyle="success" 
-                                                onClick={this.props.openClose}
+                                        
+                                        {this.props.mine ? 
+                                        null
+                                        :
+                                        <div><Button 
+                                            type="button" 
+                                            bsStyle="success" 
+                                            onClick={this.props.openClose}
                                         >
                                                     Accepter
                                         </Button>
+                                        </div>
+                                       }
                                         <Button type="button" onClick={this.props.openClose}>Negocier</Button>
                                     </ButtonGroup>
                                 </Col>
