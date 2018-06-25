@@ -12,7 +12,7 @@ body {
 } */
 
 .App-Menu {
-  background-color: black;
+  background-color: #222222;
   height: 100vh;
 }
 
@@ -35,7 +35,7 @@ body {
 }
 
 .App-body {
-  font-size: large;
+  background-color: #EFAC56;
 }
 
 @keyframes App-logo-spin {

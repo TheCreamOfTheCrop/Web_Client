@@ -62,7 +62,7 @@ class Authenticated extends React.Component<any, any> {
                     </Navbar>
                     {
                         this.state.openMenu ?
-                        <Col  className="App-Menu" md={3}>
+                        <Col  className="App-Menu" md={2}>
                             <Nav bsStyle="pills" stacked>
                                 <NavItem eventKey={1} href="/">
                                     Home
@@ -78,7 +78,7 @@ class Authenticated extends React.Component<any, any> {
                     <header className="App-header">
                         <img src={logo} className="App-logo" alt="logo" />
                     </header>
-                    <Col md={this.state.openMenu ? 9 : 12}>
+                    <Col md={this.state.openMenu ? 10 : 12}>
                         <Row>
                             <Route exact path="/" component={Home} />
                             <Route path="/profil" component={Profil} />
