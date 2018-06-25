@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Row, Col, Button, FormControl } from 'react-bootstrap';
-import ILoan from './ILoan';
+import ILoan from './Interface/ILoan';
 import Loan from './Loan';
 import { post, postWithPayload } from '../post';
 import AddLoan from './Add';

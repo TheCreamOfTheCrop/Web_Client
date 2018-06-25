@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MyLoans, PublicLoans }  from './Loans';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
-import ILoan from './ILoan';
+import ILoan from './Interface/ILoan';
 
 class TabLoans extends React.Component<any, any> {
     constructor(props: ILoan, context: any) {
