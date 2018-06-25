@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Col, Panel, Label, Button, Row } from 'react-bootstrap';
 
-import IUser from './IUser';
-import ILoan from './ILoan';
+import IUser from './Interface/IUser';
+import ILoan from './Interface/ILoan';
 import { postWithPayload } from '../post';
 import Detail from './Detail';
 
