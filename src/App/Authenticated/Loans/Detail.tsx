@@ -11,10 +11,29 @@ interface IDetailProps {
 
     openClose: () => void;
 }
+interface IDetailState {
+    historic: IRefund[];
+}
+interface IRefund {
+    amount: number;
+    creationdate: string;
+}
 
-class Detail extends React.Component<IDetailProps, any> {
-    constructor(props: IDetailProps, context: any) {
+class Detail extends React.Component<IDetailProps, IDetailState> {
+    constructor(props: IDetailProps, context: IDetailState) {
         super(props, context);
+
+        this.state = {
+            historic: []
+        };
+    }
+    componentDidMount() {
+        postWithPayload(
+            'http://' + process.env.REACT_APP_BMB_API + '/refund/list',
+            {loan_id: this.props.loan.id})
+            .then((res) => {
+                this.setState({historic: res.refunds});
+            });
     }
     acceptLoan() {
         // i still have to test it
@@ -40,14 +59,22 @@ class Detail extends React.Component<IDetailProps, any> {
                             <h4>
                                 Duration :<Label bsStyle="warning">{this.props.loan.delay} Months</Label>
                             </h4>
+                            <h4>Description: </h4> <br/>
                             {this.props.loan.description}
+                            <h4>Historic: </h4>
+                            {this.state.historic.map((refund, i) => {
+                                let thisDate = new Date(refund.creationdate);
+                                let monthName = thisDate.toLocaleString('fr-FR', { month: 'long' });
+                                return(<div key={i}> 
+                                    {monthName} {thisDate.getFullYear()}  {refund.amount}€
+                                </div>);
+                            })}
                         </Panel.Body>
                         <Panel.Footer>
                             <Row>
                                 <Col md={12}>
                                     <ButtonGroup>
                                         <Button type="button" onClick={this.props.openClose}>Close Details</Button>
-                                        
                                         {this.props.mine ? 
                                         null
                                         :
