@@ -7,6 +7,7 @@ import AddLoan from './Add';
 
 interface ILoansState {
     loans: ILoan[];
+    filteredLoans: ILoan[];
     payload?: any;
     showNewLoan?: boolean;
 }
@@ -16,7 +17,8 @@ export class PublicLoans extends React.Component<any, ILoansState> {
         super(props, context);
 
         this.state = {
-            loans: []
+            loans: [],
+            filteredLoans: []
         };
     }
     componentDidMount() {
@@ -57,10 +59,11 @@ export class MyLoans extends React.Component<any, ILoansState> {
 
         this.state = {
             payload: {
-                state_id: 'en attente',
+                state_id: '',
                 loan_type: 'public'
             },
             loans: [],
+            filteredLoans: [],
             showNewLoan: false,
         };
     }
@@ -70,7 +73,12 @@ export class MyLoans extends React.Component<any, ILoansState> {
     onSelectTypeLoan(event: any) {
         let payload = this.state.payload;
         payload.state_id = event.target.value;
-        this.refresh({payload: payload});
+        let filteredLoans = this.state.loans.filter((loan) => {
+            return loan.state_id === this.state.payload.state_id;
+        });
+
+        this.setState({filteredLoans : filteredLoans});
+        // this.refresh({payload: payload});
     }
     componentDidMount() {
         postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', this.state.payload)
@@ -84,7 +92,7 @@ export class MyLoans extends React.Component<any, ILoansState> {
         });
     }
     refresh(payload: any) {
-        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', payload)
+       /* postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', payload)
         .then((res: any) => {
             this.setState({
                 loans: res.loans
@@ -92,7 +100,7 @@ export class MyLoans extends React.Component<any, ILoansState> {
         })
         .catch((err: any) => {
             console.log(err);
-        });
+        });*/
     }
     render() {
         return (
@@ -114,7 +122,7 @@ export class MyLoans extends React.Component<any, ILoansState> {
                         value={this.state.payload.loanType}
                     >
                         <option value="en attente">Waiting</option>
-                        <option value="en négociation">In negociation</option>
+                        <option value="en negociation">In negociation</option>
                         <option value="en cours">In Progress</option>
                         <option value="finis">Closed</option>
                     </FormControl>
@@ -124,7 +132,7 @@ export class MyLoans extends React.Component<any, ILoansState> {
                 <br/>
                 <Row>   
                     { 
-                        this.state.loans.map((loan, i) => {
+                        this.state.filteredLoans.map((loan, i) => {
                             return  <Loan 
                                             key={i}
                                             loan={loan}
