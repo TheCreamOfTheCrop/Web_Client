@@ -2,9 +2,18 @@ import * as React from 'react';
 import { Row, Col, Button, ButtonGroup, FormGroup, Radio, Modal } from 'react-bootstrap';
 import { postWithPayload } from '../post';
 import { PartFormPropsExtended } from './PartFormExtended';
+import ILoan from './Interface/ILoan';
 
-class Add extends React.Component<any, any> {
-    constructor(props: any, context: any) {
+interface IModifyProps {
+    loan: ILoan;
+
+    user?: any;
+    openClose: () => void;
+    isOpen: boolean;
+}
+
+class Modify extends React.Component<IModifyProps, any> {
+    constructor(props: IModifyProps, context: any) {
         super(props, context);
         this.setAmount = this.setAmount.bind(this);
         this.setRate = this.setRate.bind(this);
@@ -12,15 +21,15 @@ class Add extends React.Component<any, any> {
         this.setDescription = this.setDescription.bind(this);
         this.setPrivacy = this.setPrivacy.bind(this);
 
-        this.addLoan = this.addLoan.bind(this);
+        this.modifyLoan = this.modifyLoan.bind(this);
 
         this.validateDescription = this.validateDescription.bind(this);
         this.state = {
             privacy: 'public',
-            description: '',
-            amount: 0,
-            rate: 0.0,
-            delay: 0
+            description: this.props.loan.description,
+            amount: this.props.loan.amount,
+            rate: this.props.loan.rate,
+            delay: this.props.loan.delay
         };
     }
     setAmount(e: any) {
@@ -42,16 +51,17 @@ class Add extends React.Component<any, any> {
     validateDescription() {
         return this.state.description.length > 4 && this.state.description.length <= 255 ? 'success' : 'error';
     }
-    addLoan() {
+    modifyLoan() {
         // i still have to test it
-        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/add', 
+        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/updateloan', 
                         {
-                            id: this.props.user.id,
+                            user_provider_id: this.props.loan.user_provider_id,
                             description: this.state.description, 
                             amount: this.state.amount, 
                             rate: this.state.rate, 
                             delay: this.state.delay ,
-                            loan_type: this.state.privacy
+                            loan_type: this.state.privacy,
+                            id_loan: this.props.loan.id
                         }).then(() => {
                             window.location.reload();
                         });
@@ -63,7 +73,7 @@ class Add extends React.Component<any, any> {
                     <Modal onHide={this.props.openClose} show={this.props.isOpen}>
                         <Modal.Header>
                             <h4> 
-                                New Loan
+                                Modify Loan
                             </h4> 
                         </Modal.Header>
                         <Modal.Body>
@@ -132,10 +142,10 @@ class Add extends React.Component<any, any> {
                                         <Button 
                                             type="button" 
                                             bsStyle="success" 
-                                            onClick={this.addLoan}
+                                            onClick={this.modifyLoan}
                                             disabled={this.validateDescription() === 'error'}
                                         >
-                                            Create
+                                            Modify
                                         </Button>
                                     </ButtonGroup>
                                 </Col>
@@ -146,4 +156,4 @@ class Add extends React.Component<any, any> {
             );
     }
 }
-export default Add;
+export default Modify;

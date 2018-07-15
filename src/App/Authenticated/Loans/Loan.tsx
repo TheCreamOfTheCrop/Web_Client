@@ -5,6 +5,8 @@ import IUser from './Interface/IUser';
 import ILoan from './Interface/ILoan';
 import { postWithPayload } from '../post';
 import Detail from './Detail';
+import AcceptLoan from './AcceptLoan';
+import Modify from './Modify';
 
 interface ILoanProps {
     loan: ILoan;
@@ -13,18 +15,25 @@ interface ILoanProps {
 
 interface ILoanState {
     openDetail: boolean;
+    acceptLoan: boolean;
+    openModify: boolean;
     user: IUser;
 
-    openClose?: () => void;
+    openCloseDetails?: () => void;
+    openCloseAccept?: () => void;
 }
 
-class Loan extends React.Component<ILoanProps, ILoanState> {
+export class Loan extends React.Component<ILoanProps, ILoanState> {
     constructor(props: ILoanProps, context: ILoanState) {
         super(props, context);
-        this.openClose = this.openClose.bind(this);
+        this.openCloseDetails = this.openCloseDetails.bind(this);
+        this.openCloseAccept = this.openCloseAccept.bind(this);
+        this.openCloseModify = this.openCloseModify.bind(this);
 
         this.state = {
             openDetail: false,
+            acceptLoan: false,
+            openModify: false,
             user: { 
                 firstname: ''
             }
@@ -40,16 +49,36 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
             console.log(err);
         });
     }
-    openClose() {
+    openCloseDetails() {
         this.setState({openDetail: !this.state.openDetail});
+    }
+    openCloseAccept() {
+        this.setState({acceptLoan: !this.state.acceptLoan});
+    }
+    openCloseModify() {
+        this.openCloseDetails();
+        this.setState({openModify: !this.state.openModify});
     }
     render() {
         return (
                 <div>
+                    <Modify
+                        user={this.state.user}
+                        loan={this.props.loan}
+                        isOpen={this.state.openModify}
+                        openClose={this.openCloseModify}
+                    />
+                    <AcceptLoan
+                        loan={this.props.loan} 
+                        isOpen={this.state.acceptLoan}
+                        openClose={this.openCloseAccept}
+                    />
                     <Detail 
                         user={this.state.user}
-                        loan={this.props.loan} 
-                        openClose={this.openClose}
+                        loan={this.props.loan}
+                        openModify={this.openCloseModify}
+                        openAccept={this.openCloseAccept}
+                        openClose={this.openCloseDetails}
                         mine={this.props.mine}
                         isOpen={this.state.openDetail}
                     />
@@ -69,7 +98,7 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
                             <Panel.Footer>
                                 <Row>
                                     <Col md={3}>
-                                        <Button type="button" onClick={this.openClose}>Details</Button>
+                                        <Button type="button" onClick={this.openCloseDetails}>Details</Button>
                                     </Col>
 
                                     <Col md={4} mdOffset={1}>
@@ -91,4 +120,3 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
         );
     }
 }
-export default Loan;

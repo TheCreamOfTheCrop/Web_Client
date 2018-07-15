@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Row, Col, Label, Button, Modal } from 'react-bootstrap';
+import { Row, Col, Label, Button, Modal, ButtonGroup } from 'react-bootstrap';
 import ILoan from './Interface/ILoan';
 import IUser from './Interface/IUser';
 import { postWithPayload } from '../post';
@@ -11,6 +11,8 @@ interface IDetailProps {
     isOpen?: boolean;
 
     openClose: () => void;
+    openAccept: () => void;
+    openModify: () => void;
 }
 interface IDetailState {
     historic: IRefund[];
@@ -23,7 +25,7 @@ interface IRefund {
 class Detail extends React.Component<IDetailProps, IDetailState> {
     constructor(props: IDetailProps, context: IDetailState) {
         super(props, context);
-
+        this.openAccept = this.openAccept.bind(this);
         this.state = {
             historic: []
         };
@@ -36,6 +38,11 @@ class Detail extends React.Component<IDetailProps, IDetailState> {
                 this.setState({historic: res.refunds});
             });
     }
+    openAccept() {
+        this.props.openClose();
+        this.props.openAccept();
+    }
+
     acceptLoan() {
         // i still have to test it
         postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/accept', 
@@ -73,25 +80,21 @@ class Detail extends React.Component<IDetailProps, IDetailState> {
                         </Modal.Body>
                         <Modal.Footer>
                             <Row>
-                                <Col md={4}>
+                                <Col md={12}>
+                                <ButtonGroup>
                                     <Button type="button" onClick={this.props.openClose}>Close Details</Button>
-                                </Col>
-                                <Col md={4}>
                                     {this.props.mine ? 
-                                    null
+                                    <Button type="button" onClick={this.props.openModify}>Modify Loan</Button>
                                     :
-                                    <div><Button 
+                                    <Button 
                                         type="button" 
                                         bsStyle="success" 
-                                        onClick={this.props.openClose}
+                                        onClick={this.openAccept}
                                     >
                                                 Accepter
                                     </Button>
-                                    </div>
                                     }
-                                </Col>
-                                <Col md={4}>
-                                        <Button type="button" onClick={this.props.openClose}>Negocier</Button>
+                                    </ButtonGroup>
                                 </Col>
                             </Row>
                         </Modal.Footer>

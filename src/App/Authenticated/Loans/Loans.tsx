@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Row, Col, Button, FormControl } from 'react-bootstrap';
 import ILoan from './Interface/ILoan';
-import Loan from './Loan';
+import { Loan } from './Loan';
 import { post, postWithPayload } from '../post';
 import AddLoan from './Add';
 
@@ -55,11 +55,10 @@ export class MyLoans extends React.Component<any, ILoansState> {
         super(props, context);
         this.addNewLoan = this.addNewLoan.bind(this);
         this.onSelectTypeLoan = this.onSelectTypeLoan.bind(this);
-        this.refresh = this.refresh.bind(this);
 
         this.state = {
             payload: {
-                state_id: '',
+                state_id: 'en attente',
                 loan_type: 'public'
             },
             loans: [],
@@ -78,29 +77,20 @@ export class MyLoans extends React.Component<any, ILoansState> {
         });
 
         this.setState({filteredLoans : filteredLoans});
-        // this.refresh({payload: payload});
     }
     componentDidMount() {
         postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', this.state.payload)
         .then((res: any) => {
             this.setState({
-                loans: res.loans
+                loans: res.loans,
+                filteredLoans: res.loans.filter((loan: ILoan) => {
+                    return loan.state_id === this.state.payload.state_id;
+                })
             });
         })
         .catch((err: any) => {
             console.log(err);
         });
-    }
-    refresh(payload: any) {
-       /* postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', payload)
-        .then((res: any) => {
-            this.setState({
-                loans: res.loans
-            });
-        })
-        .catch((err: any) => {
-            console.log(err);
-        });*/
     }
     render() {
         return (
