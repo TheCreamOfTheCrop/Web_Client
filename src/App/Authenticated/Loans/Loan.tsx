@@ -45,52 +45,49 @@ class Loan extends React.Component<ILoanProps, ILoanState> {
     }
     render() {
         return (
-                this.state.openDetail ?
-                (
-                <Detail 
+                <div>
+                    <Detail 
                         user={this.state.user}
                         loan={this.props.loan} 
                         openClose={this.openClose}
                         mine={this.props.mine}
-                />
-                ) 
-                :
-                (
-                <Col md={4}>
-                    <Panel>
-                        <Panel.Heading>
-                            <h4> 
-                                {this.state.user.firstname}{' '}
-                                <Label bsStyle="primary">{this.props.loan.amount} €</Label>
-                            </h4>
-                        </Panel.Heading>
-                        <Panel.Body>
-                            {this.props.loan.description.length > 300 ?
-                            this.props.loan.description.substring(0, 300) :
-                            this.props.loan.description}
-                        </Panel.Body>
-                        <Panel.Footer>
-                            <Row>
-                                <Col md={3}>
-                                    <Button type="button" onClick={this.openClose}>Details</Button>
-                                </Col>
-
-                                <Col md={4} mdOffset={1}>
-                                <h4>
-                                    <Label bsStyle="warning">{this.props.loan.delay} Months</Label>
+                        isOpen={this.state.openDetail}
+                    />
+                    <Col md={4}>
+                        <Panel>
+                            <Panel.Heading>
+                                <h4> 
+                                    {this.state.user.firstname}{' '}
+                                    <Label bsStyle="primary">{this.props.loan.amount} €</Label>
                                 </h4>
-                                </Col>
+                            </Panel.Heading>
+                            <Panel.Body>
+                                {this.props.loan.description.length > 300 ?
+                                this.props.loan.description.substring(0, 300) :
+                                this.props.loan.description}
+                            </Panel.Body>
+                            <Panel.Footer>
+                                <Row>
+                                    <Col md={3}>
+                                        <Button type="button" onClick={this.openClose}>Details</Button>
+                                    </Col>
 
-                                <Col md={2}>
-                                <h4>
-                                    <Label bsStyle="warning">{this.props.loan.rate} %</Label>       
-                                </h4>
-                                </Col>
-                            </Row>
-                        </Panel.Footer>
-                    </Panel>
-                </Col>
-                )
+                                    <Col md={4} mdOffset={1}>
+                                    <h4>
+                                        <Label bsStyle="warning">{this.props.loan.delay} Months</Label>
+                                    </h4>
+                                    </Col>
+
+                                    <Col md={2}>
+                                    <h4>
+                                        <Label bsStyle="warning">{this.props.loan.rate} %</Label>       
+                                    </h4>
+                                    </Col>
+                                </Row>
+                            </Panel.Footer>
+                        </Panel>
+                    </Col>
+                </div>
         );
     }
 }

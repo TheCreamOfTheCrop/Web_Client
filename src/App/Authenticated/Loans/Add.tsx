@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Row, Col, Panel, Button, ButtonGroup, FormGroup, Radio } from 'react-bootstrap';
+import { Row, Col, Button, ButtonGroup, FormGroup, Radio, Modal } from 'react-bootstrap';
 import { postWithPayload } from '../post';
 import { PartFormPropsExtended } from './PartFormExtended';
 
@@ -60,8 +60,13 @@ class Add extends React.Component<any, any> {
     render() {
         return ( 
                 <Col md={12}>
-                    <Panel>
-                        <Panel.Body>
+                    <Modal onHide={this.props.openClose} show={this.props.isOpen}>
+                        <Modal.Header>
+                            <h4> 
+                                {this.props.user.firstname} {this.props.user.lastname}
+                            </h4> 
+                        </Modal.Header>
+                        <Modal.Body>
                             <PartFormPropsExtended
                                 value={this.state.amount}
                                 setValue={this.setAmount}
@@ -87,26 +92,28 @@ class Add extends React.Component<any, any> {
                                 addOn={'Months'}
                             />
                             <Row>
-                                <FormGroup>
-                                    <Radio 
-                                        name="privacy" 
-                                        value="public"
-                                        checked={this.state.privacy === 'public'} 
-                                        onChange={this.setPrivacy} 
-                                        inline
-                                    >
-                                        Public
-                                    </Radio>{' '}
-                                    <Radio 
-                                        name="privacy"
-                                        value="prive"
-                                        checked={this.state.privacy === 'prive'}
-                                        onChange={this.setPrivacy}
-                                        inline
-                                    >
-                                        Private
-                                    </Radio>
-                                </FormGroup>
+                                <Col md={11} mdOffset={1}>
+                                    <FormGroup>
+                                        <Radio 
+                                            name="privacy" 
+                                            value="public"
+                                            checked={this.state.privacy === 'public'} 
+                                            onChange={this.setPrivacy} 
+                                            inline
+                                        >
+                                            Public
+                                        </Radio>{' '}
+                                        <Radio 
+                                            name="privacy"
+                                            value="prive"
+                                            checked={this.state.privacy === 'prive'}
+                                            onChange={this.setPrivacy}
+                                            inline
+                                        >
+                                            Private
+                                        </Radio>
+                                    </FormGroup>
+                                </Col>
                             </Row>
                             <PartFormPropsExtended
                                 value={this.state.description}
@@ -116,8 +123,8 @@ class Add extends React.Component<any, any> {
                                 type="textarea"
                                 componentClass="textarea"
                             />
-                        </Panel.Body>
-                        <Panel.Footer>
+                        </Modal.Body>
+                        <Modal.Footer>
                             <Row>
                                 <Col md={12}>
                                     <ButtonGroup>
@@ -133,8 +140,8 @@ class Add extends React.Component<any, any> {
                                     </ButtonGroup>
                                 </Col>
                             </Row>
-                        </Panel.Footer>
-                    </Panel>
+                        </Modal.Footer>
+                    </Modal>
                 </Col>
             );
     }

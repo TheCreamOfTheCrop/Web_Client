@@ -28,9 +28,11 @@ class TabLoans extends React.Component<any, any> {
                 </Tab>
                 <Tab eventKey={2} title="Public loans"  className="App-body">
                     <br/>
-                    <Col md={10} mdOffset={1}>
-                        <PublicLoans />
-                    </Col>       
+                    <Row>
+                        <Col md={10} mdOffset={1}>
+                            <PublicLoans />
+                        </Col>       
+                    </Row>
                 </Tab>
             </Tabs>
             

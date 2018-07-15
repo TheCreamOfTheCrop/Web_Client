@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Row, Col, Panel, Label, Button, ButtonGroup } from 'react-bootstrap';
+import { Row, Col, Label, Button, Modal } from 'react-bootstrap';
 import ILoan from './Interface/ILoan';
 import IUser from './Interface/IUser';
 import { postWithPayload } from '../post';
@@ -8,6 +8,7 @@ interface IDetailProps {
     loan: ILoan;
     user: IUser;
     mine: boolean | undefined;
+    isOpen?: boolean;
 
     openClose: () => void;
 }
@@ -42,14 +43,14 @@ class Detail extends React.Component<IDetailProps, IDetailState> {
     }
     render() {
         return ( 
-                <Col md={4}>
-                    <Panel>
-                        <Panel.Heading>
+                <Col md={12}>
+                    <Modal show={this.props.isOpen} onHide={this.props.openClose}>
+                        <Modal.Header>
                         <h4> 
                             {this.props.user.firstname} {this.props.user.lastname}
                         </h4> 
-                        </Panel.Heading>
-                        <Panel.Body>
+                        </Modal.Header>
+                        <Modal.Body>
                             <h4>
                                 Amount of loan :<Label bsStyle="primary">{this.props.loan.amount} €</Label>
                             </h4>
@@ -59,40 +60,42 @@ class Detail extends React.Component<IDetailProps, IDetailState> {
                             <h4>
                                 Duration :<Label bsStyle="warning">{this.props.loan.delay} Months</Label>
                             </h4>
-                            <h4>Description: </h4> <br/>
+                            <h4>Description: </h4>
                             {this.props.loan.description}
                             <h4>Historic: </h4>
                             {this.state.historic.map((refund, i) => {
                                 let thisDate = new Date(refund.creationdate);
-                                let monthName = thisDate.toLocaleString('fr-FR', { month: 'long' });
+                                let monthName = thisDate.toLocaleString('en-EN', { month: 'long' });
                                 return(<div key={i}> 
                                     {monthName} {thisDate.getFullYear()}  {refund.amount}€
                                 </div>);
                             })}
-                        </Panel.Body>
-                        <Panel.Footer>
+                        </Modal.Body>
+                        <Modal.Footer>
                             <Row>
-                                <Col md={12}>
-                                    <ButtonGroup>
-                                        <Button type="button" onClick={this.props.openClose}>Close Details</Button>
-                                        {this.props.mine ? 
-                                        null
-                                        :
-                                        <div><Button 
-                                            type="button" 
-                                            bsStyle="success" 
-                                            onClick={this.props.openClose}
-                                        >
-                                                    Accepter
-                                        </Button>
-                                        </div>
-                                       }
+                                <Col md={4}>
+                                    <Button type="button" onClick={this.props.openClose}>Close Details</Button>
+                                </Col>
+                                <Col md={4}>
+                                    {this.props.mine ? 
+                                    null
+                                    :
+                                    <div><Button 
+                                        type="button" 
+                                        bsStyle="success" 
+                                        onClick={this.props.openClose}
+                                    >
+                                                Accepter
+                                    </Button>
+                                    </div>
+                                    }
+                                </Col>
+                                <Col md={4}>
                                         <Button type="button" onClick={this.props.openClose}>Negocier</Button>
-                                    </ButtonGroup>
                                 </Col>
                             </Row>
-                        </Panel.Footer>
-                    </Panel>
+                        </Modal.Footer>
+                    </Modal>
                 </Col>
             );
     }

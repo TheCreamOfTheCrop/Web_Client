@@ -57,8 +57,8 @@ export class MyLoans extends React.Component<any, ILoansState> {
 
         this.state = {
             payload: {
-                state_id: '',
-                loan_type: 'en attente'
+                state_id: 'en attente',
+                loan_type: 'public'
             },
             loans: [],
             showNewLoan: false,
@@ -69,9 +69,8 @@ export class MyLoans extends React.Component<any, ILoansState> {
     }
     onSelectTypeLoan(event: any) {
         let payload = this.state.payload;
-        payload.loanType = event.target.value;
-        this.setState({payload: payload});
-        this.refresh();
+        payload.state_id = event.target.value;
+        this.refresh({payload: payload});
     }
     componentDidMount() {
         postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', this.state.payload)
@@ -84,8 +83,8 @@ export class MyLoans extends React.Component<any, ILoansState> {
             console.log(err);
         });
     }
-    refresh() {
-        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', this.state.payload)
+    refresh(payload: any) {
+        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/findLoan', payload)
         .then((res: any) => {
             this.setState({
                 loans: res.loans
@@ -98,15 +97,14 @@ export class MyLoans extends React.Component<any, ILoansState> {
     render() {
         return (
             <div>
+                <AddLoan 
+                        user={this.props.user}
+                        openClose={this.addNewLoan}
+                        isOpen={this.state.showNewLoan}
+                /> 
                 <Row>
                     <Col md={3}>
-                        {this.state.showNewLoan ? 
-                        <AddLoan 
-                            user={this.props.user}
-                            openClose={this.addNewLoan}
-                        /> 
-                        :
-                        <Button onClick={this.addNewLoan}>Add new personal loan</Button>}
+                        <Button onClick={this.addNewLoan}>Add new personal loan</Button>
                     </Col>
                     <Col md={3}>
                     <FormControl 
