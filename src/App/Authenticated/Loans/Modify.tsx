@@ -53,17 +53,18 @@ class Modify extends React.Component<IModifyProps, any> {
     }
     modifyLoan() {
         // i still have to test it
-        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/updateloan', 
+        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/loan/update', 
                         {
-                            user_provider_id: this.props.loan.user_provider_id,
                             description: this.state.description, 
                             amount: this.state.amount, 
                             rate: this.state.rate, 
                             delay: this.state.delay ,
                             loan_type: this.state.privacy,
                             id_loan: this.props.loan.id
-                        }).then(() => {
+                        }).then((res) => {
                             window.location.reload();
+                        }).catch((err) => {
+                            console.log(err);
                         });
 
     }
@@ -141,7 +142,7 @@ class Modify extends React.Component<IModifyProps, any> {
                                         <Button type="button" onClick={this.props.openClose}>Close</Button>
                                         <Button 
                                             type="button" 
-                                            bsStyle="success" 
+                                            bsStyle="success"
                                             onClick={this.modifyLoan}
                                             disabled={this.validateDescription() === 'error'}
                                         >
