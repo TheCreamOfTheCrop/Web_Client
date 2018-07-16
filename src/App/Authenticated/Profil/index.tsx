@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Panel, PanelGroup, Row, Col, Button, Alert, ButtonGroup } from 'react-bootstrap';
+import { Panel, PanelGroup, Row, Col, Button, Alert, ButtonGroup, Modal } from 'react-bootstrap';
 import PartForm from './PartForm';
 import { postWithPayload } from '../post';
 // import { postWithPayload } from '../post';
@@ -14,10 +14,14 @@ interface IProfilState {
     avatar: string;
     email: string;
     isAccountValid: boolean;
+    token: string;
 
     oldPassword: string;
     newPassword: string;
     newPasswordConfirmation: string;
+
+    message: string;
+    isOpenMessage: boolean;
 }
 
 class Profil extends React.Component<any, IProfilState> {
@@ -39,8 +43,11 @@ class Profil extends React.Component<any, IProfilState> {
 
         this.update = this.update.bind(this);
         this.sendByMail = this.sendByMail.bind(this);
+        this.openMessage = this.openMessage.bind(this);
+
         this.state = {
             rawUser: user,
+            token: session.token,
             id: user.id,
             lastname: user.lastname,
             firstname: user.firstname,
@@ -49,7 +56,10 @@ class Profil extends React.Component<any, IProfilState> {
             isAccountValid: user.isAccountValidate,
             oldPassword: '',
             newPassword: '',
-            newPasswordConfirmation: ''
+            newPasswordConfirmation: '',
+
+            message: '',
+            isOpenMessage: false
         };
     }
     getPasswordValidation() {
@@ -98,20 +108,32 @@ class Profil extends React.Component<any, IProfilState> {
                         });
     }
     delete() {
-        // postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/user/delete',
-        //                 {
-        //                     id: this.state.id
-        //                 });
+        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/user/delete',
+                        {
+                            id: this.state.id
+                        });
     }
     update() {
-        // let url = 'http://' + process.env.REACT_APP_BMB_API + '/resetPassword';
-        // We need to use the old password too
-        // postWithPayload(url, {password:this.state.newPassword})
-        // .then()
+        let url = 'http://' + process.env.REACT_APP_BMB_API + '/user/resetPassword';
+        postWithPayload(url, {password: this.state.newPassword, token: this.state.token})
+        .then((res) => {
+            this.setState({message: 'Update successful', isOpenMessage: !this.state.isOpenMessage});
+        }).catch((err) => {
+            let message = 'There was a problem with the update :' + err.message;
+            this.setState({message: message, isOpenMessage: !this.state.isOpenMessage});
+        });
+    }
+    openMessage() {
+        this.setState( {isOpenMessage: !this.state.isOpenMessage});
     }
     render() {
         return (
             <Col md={8} mdOffset={2}>
+                <Modal show={this.state.isOpenMessage} onHide={this.openMessage}>
+                    <Modal.Body>
+                        {this.state.message}
+                    </Modal.Body>
+                </Modal>
                 <PanelGroup accordion id="AccountInformation" defaultActiveKey="1">
                     <Panel eventKey="1">
                         <Panel.Heading>
