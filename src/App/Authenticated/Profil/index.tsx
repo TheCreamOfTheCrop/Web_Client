@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { Panel, PanelGroup, Row, Col, Button } from 'react-bootstrap';
+import { Panel, PanelGroup, Row, Col, Button, Alert, ButtonGroup } from 'react-bootstrap';
 import PartForm from './PartForm';
+import { postWithPayload } from '../post';
 // import { postWithPayload } from '../post';
 
 const logo = require('../../logo.png');
 
 interface IProfilState {
+    rawUser: string;
+    id: number;
     lastname: string;
     firstname: string;
     avatar: string;
@@ -35,7 +38,10 @@ class Profil extends React.Component<any, IProfilState> {
         this.setConfirmPassword = this.setConfirmPassword.bind(this);
 
         this.update = this.update.bind(this);
+        this.sendByMail = this.sendByMail.bind(this);
         this.state = {
+            rawUser: user,
+            id: user.id,
             lastname: user.lastname,
             firstname: user.firstname,
             avatar: user.avatar,
@@ -78,7 +84,25 @@ class Profil extends React.Component<any, IProfilState> {
     setConfirmPassword(e: any) {
         this.setState({newPasswordConfirmation: e.target.value});
     }
-
+    sendByMail() {
+        //
+        postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/note/listNoteMadeByUser',
+                        {
+                            id: this.state.id
+                        }).then((res) => {
+                            var element = document.createElement('a');
+                            var file = new Blob(res.note, {type: 'text/plain'});
+                            element.href = URL.createObjectURL(file);
+                            element.download = 'rgpdBmybank.txt';
+                            element.click();
+                        });
+    }
+    delete() {
+        // postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/user/delete',
+        //                 {
+        //                     id: this.state.id
+        //                 });
+    }
     update() {
         // let url = 'http://' + process.env.REACT_APP_BMB_API + '/resetPassword';
         // We need to use the old password too
@@ -144,6 +168,36 @@ class Profil extends React.Component<any, IProfilState> {
                             >
                                 Update
                             </Button>
+                        </Panel.Body>
+                    </Panel>
+                    <Panel eventKey="3">
+                        <Panel.Heading>
+                            <Panel.Title toggle>Personal Data</Panel.Title>
+                        </Panel.Heading>
+                        <Panel.Body collapsible>
+                            <p> For the application to work properly, we need some of your data's<br/>
+                                    When you signed in, you already authorized us to keep them in our database
+                                    If you wish to know which information we keep on you we can send them 
+                                    by direct download
+                                     You can also destroy all trace of them in our database</p>
+                            <Alert bsStyle="warning">
+                            Warning! Deletion of your data will also delete your account
+                            </Alert>
+                            <ButtonGroup>
+                                <Button
+                                    bsStyle="warning"
+                                    onClick={this.sendByMail}
+                                >
+                                    Send data by direct download
+                                </Button>
+
+                                <Button
+                                    bsStyle="danger"
+                                    onClick={this.delete}
+                                >
+                                    Delete all data
+                                </Button>
+                            </ButtonGroup>
                         </Panel.Body>
                     </Panel>
                 </PanelGroup>

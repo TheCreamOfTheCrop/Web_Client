@@ -15,6 +15,7 @@ class AddRefund extends React.Component<IAddRefundProps, any> {
     constructor(props: IAddRefundProps, context: any) {
         super(props, context);
         this.setAmount = this.setAmount.bind(this);
+        this.goToLydia = this.goToLydia.bind(this);
 
         let sessionKey = String(process.env.REACT_APP_AUTH_SESSION_KEY);
         let session: any = JSON.parse(String(window.sessionStorage.getItem(sessionKey)));
@@ -29,8 +30,8 @@ class AddRefund extends React.Component<IAddRefundProps, any> {
         // i still have to test it
         postWithPayload('http://' + process.env.REACT_APP_BMB_API + '/refund/add', 
                         {
-                            loan_id: 130,
-                            amount: 20
+                            loan_id: this.props.loan.id,
+                            amount: this.state.amount
                         });
     }
     setAmount(e: any) {
