@@ -6,7 +6,7 @@ interface ILoan {
     description: string;
     rate: number;
     loan_type: 'public' | 'prive';
-    state_id: 'en attente' | 'en négociation' | 'en cours' | 'finis';
+    state_id: 'en attente' | 'en negociation' | 'en cours' | 'finis';
     user_provider_id: number | null;
     user_requester_id: number;
     delay: number;

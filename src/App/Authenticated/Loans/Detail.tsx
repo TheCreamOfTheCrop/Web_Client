@@ -13,6 +13,7 @@ interface IDetailProps {
     openClose: () => void;
     openAccept: () => void;
     openModify: () => void;
+    openRefund: () => void;
 }
 interface IDetailState {
     historic: IRefund[];
@@ -69,31 +70,46 @@ class Detail extends React.Component<IDetailProps, IDetailState> {
                             </h4>
                             <h4>Description: </h4>
                             {this.props.loan.description}
-                            <h4>Historic: </h4>
-                            {this.state.historic.map((refund, i) => {
-                                let thisDate = new Date(refund.creationdate);
-                                let monthName = thisDate.toLocaleString('en-EN', { month: 'long' });
-                                return(<div key={i}> 
-                                    {monthName} {thisDate.getFullYear()}  {refund.amount}€
-                                </div>);
-                            })}
+                            {this.props.loan.state_id === 'en attente' ? <h4>Historic: </h4> : null}
+                            {this.props.loan.state_id === 'en attente' ?
+                                (
+                                    this.state.historic.map((refund, i) => {
+                                    let thisDate = new Date(refund.creationdate);
+                                    let monthName = thisDate.toLocaleString('en-EN', { month: 'long' });
+                                    return(<div key={i}> 
+                                        {monthName} {thisDate.getFullYear()}  {refund.amount}€
+                                    </div>);
+                                    })
+                                ) : null
+                            }
                         </Modal.Body>
                         <Modal.Footer>
                             <Row>
                                 <Col md={12}>
                                 <ButtonGroup>
                                     <Button type="button" onClick={this.props.openClose}>Close Details</Button>
-                                    {this.props.mine ? 
-                                    <Button type="button" onClick={this.props.openModify}>Modify Loan</Button>
+                                    {this.props.mine  ?
+                                        this.props.loan.state_id !== 'en attente' ?
+                                        <Button type="button" onClick={this.props.openRefund}>Refund</Button>
+                                        :
+                                        <Button type="button" onClick={this.props.openModify}>Modify Loan</Button>
                                     :
+                                    <Button 
+                                        type="button" 
+                                        bsStyle="primary" 
+                                        onClick={this.openAccept}
+                                    >
+                                        Negocier
+                                    </Button>
+                                    }
+                                    {this.props.mine ? null :
                                     <Button 
                                         type="button" 
                                         bsStyle="success" 
                                         onClick={this.openAccept}
                                     >
-                                                Accepter
-                                    </Button>
-                                    }
+                                        Accepter
+                                    </Button>}
                                     </ButtonGroup>
                                 </Col>
                             </Row>

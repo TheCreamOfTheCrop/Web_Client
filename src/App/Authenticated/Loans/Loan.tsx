@@ -7,6 +7,7 @@ import { postWithPayload } from '../post';
 import Detail from './Detail';
 import AcceptLoan from './AcceptLoan';
 import Modify from './Modify';
+import AddRefund from './AddRefund';
 
 interface ILoanProps {
     loan: ILoan;
@@ -17,10 +18,13 @@ interface ILoanState {
     openDetail: boolean;
     acceptLoan: boolean;
     openModify: boolean;
+    isOpenRefund: boolean;
     user: IUser;
 
     openCloseDetails?: () => void;
     openCloseAccept?: () => void;
+    openCloseRefund?: () => void;
+    openCloseModify?: () => void;
 }
 
 export class Loan extends React.Component<ILoanProps, ILoanState> {
@@ -29,11 +33,13 @@ export class Loan extends React.Component<ILoanProps, ILoanState> {
         this.openCloseDetails = this.openCloseDetails.bind(this);
         this.openCloseAccept = this.openCloseAccept.bind(this);
         this.openCloseModify = this.openCloseModify.bind(this);
+        this.openCloseRefund = this.openCloseRefund.bind(this);
 
         this.state = {
             openDetail: false,
             acceptLoan: false,
             openModify: false,
+            isOpenRefund: false,
             user: { 
                 firstname: ''
             }
@@ -55,6 +61,9 @@ export class Loan extends React.Component<ILoanProps, ILoanState> {
     openCloseAccept() {
         this.setState({acceptLoan: !this.state.acceptLoan});
     }
+    openCloseRefund() {
+        this.setState({isOpenRefund: !this.state.isOpenRefund});
+    }
     openCloseModify() {
         this.openCloseDetails();
         this.setState({openModify: !this.state.openModify});
@@ -62,27 +71,33 @@ export class Loan extends React.Component<ILoanProps, ILoanState> {
     render() {
         return (
                 <div>
-                    <Modify
-                        user={this.state.user}
-                        loan={this.props.loan}
-                        isOpen={this.state.openModify}
-                        openClose={this.openCloseModify}
-                    />
-                    <AcceptLoan
-                        loan={this.props.loan} 
-                        isOpen={this.state.acceptLoan}
-                        openClose={this.openCloseAccept}
-                    />
-                    <Detail 
-                        user={this.state.user}
-                        loan={this.props.loan}
-                        openModify={this.openCloseModify}
-                        openAccept={this.openCloseAccept}
-                        openClose={this.openCloseDetails}
-                        mine={this.props.mine}
-                        isOpen={this.state.openDetail}
-                    />
                     <Col md={4}>
+                        <AddRefund
+                            isOpen={this.state.isOpenRefund}
+                            openClose={this.openCloseRefund}
+                            loan={this.props.loan}
+                        />
+                        <Modify
+                            user={this.state.user}
+                            loan={this.props.loan}
+                            isOpen={this.state.openModify}
+                            openClose={this.openCloseModify}
+                        />
+                        <AcceptLoan
+                            loan={this.props.loan} 
+                            isOpen={this.state.acceptLoan}
+                            openClose={this.openCloseAccept}
+                        />
+                        <Detail 
+                            user={this.state.user}
+                            loan={this.props.loan}
+                            openModify={this.openCloseModify}
+                            openAccept={this.openCloseAccept}
+                            openClose={this.openCloseDetails}
+                            openRefund={this.openCloseRefund}
+                            mine={this.props.mine}
+                            isOpen={this.state.openDetail}
+                        />
                         <Panel>
                             <Panel.Heading>
                                 <h4> 

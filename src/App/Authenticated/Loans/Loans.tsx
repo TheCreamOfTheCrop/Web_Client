@@ -58,7 +58,7 @@ export class MyLoans extends React.Component<any, ILoansState> {
 
         this.state = {
             payload: {
-                state_id: 'en attente',
+                state_id: '',
                 loan_type: 'public'
             },
             loans: [],
@@ -70,11 +70,14 @@ export class MyLoans extends React.Component<any, ILoansState> {
         this.setState({showNewLoan: !this.state.showNewLoan});
     }
     onSelectTypeLoan(event: any) {
-        let payload = this.state.payload;
-        payload.state_id = event.target.value;
-        let filteredLoans = this.state.loans.filter((loan) => {
-            return loan.state_id === this.state.payload.state_id;
-        });
+        let stateid: string = event.target.value;
+        let filteredLoans: ILoan[];
+        if (stateid === 'all')
+            filteredLoans = this.state.loans;
+        else
+            filteredLoans = this.state.loans.filter((loan) => {
+                return loan.state_id === stateid;
+            });
 
         this.setState({filteredLoans : filteredLoans});
     }
@@ -83,9 +86,7 @@ export class MyLoans extends React.Component<any, ILoansState> {
         .then((res: any) => {
             this.setState({
                 loans: res.loans,
-                filteredLoans: res.loans.filter((loan: ILoan) => {
-                    return loan.state_id === this.state.payload.state_id;
-                })
+                filteredLoans: res.loans
             });
         })
         .catch((err: any) => {
@@ -111,8 +112,8 @@ export class MyLoans extends React.Component<any, ILoansState> {
                         onChange={this.onSelectTypeLoan}
                         value={this.state.payload.loanType}
                     >
+                        <option value="all">All</option>
                         <option value="en attente">Waiting</option>
-                        <option value="en negociation">In negociation</option>
                         <option value="en cours">In Progress</option>
                         <option value="finis">Closed</option>
                     </FormControl>
