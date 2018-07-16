@@ -34,9 +34,6 @@ class Authenticated extends React.Component<any, any> {
         });
         window.sessionStorage.setItem(sessionKey, 'null');
     }
-    handleSelect() {
-        console.log('toto');
-    }
 
     openThisMenu() {
         this.setState({openMenu: !this.state.openMenu});
@@ -65,8 +62,8 @@ class Authenticated extends React.Component<any, any> {
                     </Navbar>
                     {
                         this.state.openMenu ?
-                        <Col  className="App-Menu" md={3}>
-                            <Nav bsStyle="pills" stacked onSelect={this.handleSelect}>
+                        <Col  className="App-Menu" md={2}>
+                            <Nav bsStyle="pills" stacked>
                                 <NavItem eventKey={1} href="/">
                                     Home
                                 </NavItem>
@@ -78,10 +75,10 @@ class Authenticated extends React.Component<any, any> {
                         : 
                         null
                     }
-                    <Col md={this.state.openMenu ? 9 : 12}>
-                        <header className="App-header">
-                            <img src={logo} className="App-logo" alt="logo" />
-                        </header>
+                    <header className="App-header">
+                        <img src={logo} className="App-logo" alt="logo" />
+                    </header>
+                    <Col md={this.state.openMenu ? 10 : 12}>
                         <Row>
                             <Route exact path="/" component={Home} />
                             <Route path="/profil" component={Profil} />

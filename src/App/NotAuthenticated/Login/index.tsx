@@ -1,6 +1,6 @@
 import * as React from 'react';
 import LoginForm from './Form';
-import { Panel, Modal, Button } from 'react-bootstrap';
+import { Panel, Modal, Button, Row } from 'react-bootstrap';
 import post from '../post';
 
 interface ICredentials {
@@ -56,8 +56,9 @@ class Login extends React.Component<any, any> {
     }
     render() {  
         return(
-            <div>
-                <Panel bsStyle="danger">
+            <Row>
+                <br/>
+                <Panel>
                     <Panel.Heading>Sign in</Panel.Heading>
                     <Panel.Body>
                         <LoginForm connect={this.connect}/>
@@ -73,7 +74,7 @@ class Login extends React.Component<any, any> {
                     <Button onClick={this.closeErrorModal}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-            </div>
+            </Row>
         );
     }
 }

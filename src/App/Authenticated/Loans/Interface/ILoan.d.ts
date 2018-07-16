@@ -5,8 +5,8 @@ interface ILoan {
     creationDate: Date;
     description: string;
     rate: number;
-    loan_type: 'public' | 'private';
-    state_id: 'en attente' | 'en negociation';
+    loan_type: 'public' | 'prive';
+    state_id: 'en attente' | 'en negociation' | 'en cours' | 'finis';
     user_provider_id: number | null;
     user_requester_id: number;
     delay: number;

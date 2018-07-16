@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormGroup, ControlLabel, FormControl, InputGroup } from 'react-bootstrap';
-import { IPartFormPropsExtended } from './IPartFormExtended';
+import { IPartFormPropsExtended } from './Interface/IPartFormExtended';
 
 // Not exactly the same copypast, but a reference from the oneof Profil
 export class PartFormPropsExtended extends React.Component<IPartFormPropsExtended, any> {
@@ -22,6 +22,7 @@ export class PartFormPropsExtended extends React.Component<IPartFormPropsExtende
           
           <InputGroup>
             <FormControl
+              componentClass={this.props.componentClass}
               type={this.props.type}
               value={this.props.value}
               placeholder="Enter value"

@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: White;
+  background-color: white;
 }
 
 /* .App-logo {
@@ -12,7 +12,7 @@ body {
 } */
 
 .App-Menu {
-  background-color: black;
+  background-color: #222222;
   height: 100vh;
 }
 
@@ -27,7 +27,7 @@ body {
 .App-header {
   height: 190px;
   padding: 20px;
-  color: white;
+  background-color: #5592f2;
 }
 
 .App-title {
@@ -35,7 +35,7 @@ body {
 }
 
 .App-body {
-  font-size: large;
+  background-color: #EFAC56;
 }
 
 @keyframes App-logo-spin {

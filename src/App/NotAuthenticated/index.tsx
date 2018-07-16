@@ -13,7 +13,7 @@ const NotAuthenticated = (props: any) => (
     <Router>
         <div>
             <Row>
-                <Navbar inverse collapseOnSelect>
+                <Navbar id="Bandeau" inverse collapseOnSelect>
                     <Nav>
                         <NavItem href="/">
                             Home
